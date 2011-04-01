@@ -66,7 +66,10 @@ function cm_subdirectories_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     case 'load':
       $additions = array();
 
-      $additions['subfolder_path'] = variable_get('cm_subdirectories_' . $node->nid . '_path', '');
+      $path = variable_get('cm_subdirectories_' . $node->nid . '_path', NULL);
+      if (!is_null($path)) {
+        $additions['subfolder_path'] = $path;
+      }
 
       return $additions;
   }
