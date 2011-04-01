@@ -47,7 +47,7 @@ function subfolder_provision_drupal_config($uri, $data) {
   if (d()->type == 'site') {
     if (!empty(d()->subfolder_path)) {
       $lines[] = '// Fix the basepath to include the subfolder structure.';
-      $lines[] = '$basepath = \'http://' . $uri . '/' . d()->subfolder_path . '\';';
+      $lines[] = '$base_url = \'http://' . $uri . '/' . d()->subfolder_path . '\';';
 
     }
   }
