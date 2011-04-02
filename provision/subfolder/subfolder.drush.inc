@@ -1,9 +1,8 @@
 <?php
-// $Id$
 
 /**
  * @file
- *   An example of the provision service API.
+ *   The subfolder provision service.
  *
  *  Declares a new service type and a basic implementation of it.
  *  It matches the same service definition in the hosting front end.
@@ -28,6 +27,32 @@ function subfolder_provision_services() {
   return array('subfolder' => NULL);
 }
 
+/**
+ * The subfolder service base class.
+ */
+class provisionService_subfolder extends provisionService {
+  public $service = 'subfolder';
+
+  /**
+   * Register the db handler for sites, based on the db_server option.
+   */
+  static function subscribe_site($context) {
+    $context->setProperty('subfolder_path');
+  }
+}
+
+/**
+ * Implementation of hook_provision_apache_vhost_config().
+ *
+ * Add instructions for mod_rewrite to remove the subfolder path.
+ * This will result in the following lines in virtual host files:
+ * <code>
+ *   RewriteEngine On
+     RewriteOptions inherit
+     RewriteRule ^/SUBFOLDER(/?)$ /index.php
+     RewriteRule ^/SUBFOLDER(/.*)$ $1
+ * </code>
+ */
 function subfolder_provision_apache_vhost_config($uri, $data) {
   $lines = array();
   if (d()->type == 'site') {
@@ -42,6 +67,16 @@ function subfolder_provision_apache_vhost_config($uri, $data) {
   return implode($lines, "\n");
 }
 
+/**
+ * Implementation of hook_provision_drupal_config().
+ *
+ * Add the subfolder to the $base_url because Drupal won't pick it up
+ * automatically.
+ * This will result in the following code in the settings.php:
+ * <code>
+ *   $base_url = 'http://site-url.domain/SUBFOLDER';
+ * </code>
+ */
 function subfolder_provision_drupal_config($uri, $data) {
   $lines = array();
   if (d()->type == 'site') {
@@ -52,22 +87,4 @@ function subfolder_provision_drupal_config($uri, $data) {
     }
   }
   return implode($lines, "\n");
-}
-
-/**
- * The service type base class.
- *
- * All implementations of the service type will inherit this class.
- * This class should define the 'public API' to be used by the rest
- * of the system, which should not expose implementation details.
- */
-class provisionService_subfolder extends provisionService {
-  public $service = 'subfolder';
-
-  /**
-   * Register the db handler for sites, based on the db_server option.
-   */
-  static function subscribe_site($context) {
-    $context->setProperty('subfolder_path');
-  }
 }
