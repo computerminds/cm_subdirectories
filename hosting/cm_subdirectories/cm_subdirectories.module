@@ -1,13 +1,6 @@
 <?php
 
 /**
- * Expose a type of service to the Service API.
- */
-function cm_subdirectories_hosting_service_type() {
-  return array('subfolder' => array('title' => t('Subfolder service')));
-}
-
-/**
  * Implementation of hook_form_alter().
  *
  * Add a simple form element to specify the subfolder.
