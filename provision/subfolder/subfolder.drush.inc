@@ -48,7 +48,7 @@ function subfolder_provision_apache_vhost_config($uri, $data) {
       $lines[] = 'RewriteEngine On';
       $lines[] = 'RewriteOptions inherit';
       $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '(/?)$ /index.php';
-      $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '(/.*)$ ' . d()->root . '$1';
+      $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '/(.*)$ ' . d()->root . '$1';
     }
   }
 
