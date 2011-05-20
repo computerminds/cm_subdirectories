@@ -39,7 +39,7 @@ class provisionService_subfolder extends provisionService {
  *   RewriteEngine On
  *   RewriteOptions inherit
  *   RewriteRule ^/SUBFOLDER(/?)$ /index.php
- *   RewriteRule ^/SUBFOLDER(/.*)$ $1
+ *   RewriteRule ^/SUBFOLDER/(.*)$ /path/to/platform/$1
  */
 function subfolder_provision_apache_vhost_config($uri, $data) {
   $lines = array();
@@ -48,7 +48,7 @@ function subfolder_provision_apache_vhost_config($uri, $data) {
       $lines[] = 'RewriteEngine On';
       $lines[] = 'RewriteOptions inherit';
       $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '(/?)$ /index.php';
-      $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '(/.*)$ $1';
+      $lines[] = 'RewriteRule ^/' . d()->subfolder_path . '(/.*)$ ' . d()->root . '$1';
     }
   }
 
