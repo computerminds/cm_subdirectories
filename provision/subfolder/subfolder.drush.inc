@@ -67,8 +67,12 @@ function subfolder_provision_drupal_config($uri, $data) {
   $lines = array();
   if (d()->type == 'site') {
     if (!empty(d()->subfolder_path)) {
-      $lines[] = '// Fix the basepath to include the subfolder structure.';
-      $lines[] = '$base_url = \'http://' . $uri . '/' . d()->subfolder_path . '\';';
+      $lines[] = '  // Fix the basepath to include the subfolder structure.';
+      $lines[] = '  $base_url = \'http://' . $uri . '/' . d()->subfolder_path . '\';';
+      $lines[] = '  // Try to allow for different domains.';
+      $lines[] = '  if (isset($_SERVER[\'HTTP_HOST\'])) {';
+      $lines[] = '    $base_url = \'http://\' . $_SERVER[\'HTTP_HOST\'] . \'/' . d()->subfolder_path . '\';';
+      $lines[] = '  }';
 
     }
   }
